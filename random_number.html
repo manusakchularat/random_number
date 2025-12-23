@@ -854,6 +854,13 @@
                             updateResults();
                             isAnimating = false;
                             
+                            // Stop spin sound first
+                            const spinSound = document.getElementById('spinSound');
+                            if (spinSound) {
+                                spinSound.pause();
+                                spinSound.currentTime = 0;
+                            }
+                            
                             // Play win sound
                             const winSound = document.getElementById('winSound');
                             if (winSound) {
