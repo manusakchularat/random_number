@@ -489,9 +489,6 @@
     </div>
 
     <script>
-        // ใส่ URL ของ Google Apps Script ที่นี่
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7pOUDcUvyqWNI4tpoxnnBk25q5OgtK8bPaPSCXi6TqSnit4kzQn3v1TjLHtc6tXaSmA/exec';
-        
         let allNumbers = [];
         let remainingNumbers = [];
         let results = [];
@@ -499,61 +496,6 @@
         let currentNumber = 0;
         let currentMin = null;
         let currentMax = null;
-        let sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9); // Unique ID
-        let usedNumbersFromSheets = []; // เก็บตัวเลขที่โหลดจาก Sheets
-
-        // Google Sheets Integration
-        async function saveToGoogleSheets(number) {
-            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
-                console.log('Google Sheets URL not configured');
-                return;
-            }
-            
-            try {
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        action: 'save',
-                        number: number,
-                        sessionId: sessionId
-                    })
-                });
-                console.log('Saved to Google Sheets:', number);
-            } catch (error) {
-                console.error('Error saving to Google Sheets:', error);
-            }
-        }
-
-        async function loadFromGoogleSheets() {
-            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
-                console.log('Google Sheets URL not configured');
-                return [];
-            }
-            
-            try {
-                const response = await fetch(GOOGLE_SCRIPT_URL + '?action=load');
-                const data = await response.json();
-                
-                // แปลงเป็น array ของตัวเลข และลบค่าซ้ำ
-                let numbers = [];
-                if (data.numbers && Array.isArray(data.numbers)) {
-                    numbers = data.numbers
-                        .map(n => parseInt(n))  // แปลงเป็น number
-                        .filter(n => !isNaN(n)); // กรองค่าที่ไม่ใช่ตัวเลข
-                    
-                    // ลบค่าซ้ำ
-                    numbers = [...new Set(numbers)];
-                }
-                
-                console.log('Loaded numbers from Sheets:', numbers, '(unique values)');
-                return numbers;
-            } catch (error) {
-                console.error('Error loading from Google Sheets:', error);
-                return [];
-            }
-        }
 
         function getNumberRange() {
             const min = parseInt(document.getElementById('minNumber').value);
@@ -640,7 +582,7 @@
             }
         }
 
-        async function randomNumber() {
+        function randomNumber() {
             if (isAnimating) return;
 
             // Check and initialize numbers (will detect range changes)
@@ -649,31 +591,8 @@
             const uniqueValue = document.getElementById('uniqueValue').checked;
             const range = getNumberRange();
             if (!range) return;
-            
-            // โหลดตัวเลขจาก Google Sheets ก่อนสุ่ม (เพื่อป้องกันซ้ำกับที่สุ่มแล้ว)
-            if (uniqueValue) {
-                const savedNumbers = await loadFromGoogleSheets();
-                if (savedNumbers.length > 0) {
-                    // กรอง remainingNumbers ให้เหลือเฉพาะตัวที่ยังไม่ถูกใช้
-                    remainingNumbers = allNumbers.filter(num => !savedNumbers.includes(num));
-                    console.log('Updated remainingNumbers:', remainingNumbers.length, 'from', allNumbers.length);
-                    
-                    // เช็คทันทีหลังจากกรอง ถ้าเหลือ 0 ให้หยุด
-                    if (remainingNumbers.length === 0) {
-                        const restart = confirm('🎊 จับรางวัลครบทุกหมายเลขแล้ว!\n\nต้องการเริ่มจับรางวัลใหม่หรือไม่?');
-                        if (restart) {
-                            // ล้างข้อมูลใน Google Sheets ด้วย (ถ้าต้องการ)
-                            remainingNumbers = [...allNumbers];
-                            results = [];
-                            updateResults();
-                        } else {
-                            return; // หยุดการทำงาน
-                        }
-                    }
-                }
-            }
 
-            // Check if all numbers used (สำหรับกรณีที่ไม่ได้โหลดจาก Sheets)
+            // Check if all numbers used
             if (uniqueValue && remainingNumbers.length === 0) {
                 const restart = confirm('🎊 จับรางวัลครบทุกหมายเลขแล้ว!\n\nต้องการเริ่มจับรางวัลใหม่หรือไม่?');
                 if (restart) {
@@ -754,10 +673,6 @@
                         if (stoppedSlots === slotDigits.length) {
                             currentNumber = selectedNumber;
                             results.push(selectedNumber);
-                            
-                            // Save to Google Sheets
-                            saveToGoogleSheets(selectedNumber);
-                            
                             updateResults();
                             isAnimating = false;
                             
@@ -838,34 +753,6 @@
 
         // Initialize display
         updateSlotDisplay(0);
-        
-        // Load previous results from Google Sheets on page load
-        window.addEventListener('load', async function() {
-            const savedNumbers = await loadFromGoogleSheets();
-            if (savedNumbers.length > 0) {
-                const loadPrevious = confirm(`พบผลลัพธ์ที่บันทึกไว้ ${savedNumbers.length} รายการ\n\nต้องการโหลดข้อมูลเดิมหรือไม่?`);
-                if (loadPrevious) {
-                    results = savedNumbers;
-                    usedNumbersFromSheets = savedNumbers;
-                    // Remove already used numbers from remainingNumbers
-                    const range = getNumberRange();
-                    if (range) {
-                        allNumbers = [];
-                        for (let i = range.min; i <= range.max; i++) {
-                            allNumbers.push(i);
-                        }
-                        remainingNumbers = allNumbers.filter(num => !savedNumbers.includes(num));
-                        currentMin = range.min;
-                        currentMax = range.max;
-                        console.log('Loaded and filtered:', savedNumbers.length, 'used,', remainingNumbers.length, 'remaining');
-                    }
-                    updateResults();
-                } else {
-                    // ถ้าไม่โหลด ก็ยังต้องเก็บรายการเพื่อไม่ให้ซ้ำ
-                    usedNumbersFromSheets = savedNumbers;
-                }
-            }
-        });
 
         // Settings toggle function
         function toggleSettings() {
