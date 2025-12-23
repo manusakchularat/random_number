@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 จับรางวัลปีใหม่ 2025 | โรงพยาบาลจุฬารัตน์</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Snowflakes Animation */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .container {
+            background: #f5f5f5;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #1976D2;
+            font-size: 2.8em;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            color: #1976D2;
+            font-size: 2.8em;
+            font-weight: bold;
+            margin-top: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.5px;
+        }
+
+        .settings-toggle-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 2.8em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .settings-toggle-btn .icon {
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .settings-toggle-btn.collapsed .icon {
+            transform: rotate(180deg);
+        }
+
+        .input-section {
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            max-height: 500px;
+            overflow: hidden;
+        }
+
+        .input-section.collapsed {
+            max-height: 0;
+            padding: 0;
+            margin-bottom: 0;
+            opacity: 0;
+        }
+
+        .range-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        input[type="number"] {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #2196F3;
+        }
+
+        .options {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-container label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: normal;
+            color: #555;
+        }
+
+        /* Slot Machine Display */
+        .slot-machine {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .slot-display {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 0;
+        }
+
+        .slot-digit {
+            background: white;
+            width: 180px;
+            height: 240px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10em;
+            font-weight: bold;
+            color: #2c3e50;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slot-digit-inner {
+            position: relative;
+            transition: transform 0.1s ease-out;
+        }
+
+        .spinning .slot-digit-inner {
+            animation: slotSpin 0.05s linear infinite;
+        }
+
+        .slowing .slot-digit-inner {
+            animation: slotSpin 0.2s ease-out infinite;
+        }
+
+        @keyframes slotSpin {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50px); }
+        }
+
+        .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(33, 150, 243, 0.9);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(33, 150, 243, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+        }
+
+        .btn-random {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            font-size: 2em;
+            padding: 18px 60px;
+        }
+
+        .btn-random:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-random:active {
+            transform: translateY(0);
+        }
+
+        .btn-random:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-clear {
+            background: #95a5a6;
+            color: white;
+            font-size: 0.9em;
+            padding: 10px 25px;
+        }
+
+        .btn-clear:hover {
+            background: #7f8c8d;
+        }
+
+        .results-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .results-header h3 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin: 0;
+        }
+
+        .results-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .result-item {
+            background: #ecf0f1;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item .item-number {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-bottom: 3px;
+        }
+
+        .result-item .item-value {
+            font-size: 1.3em;
+        }
+
+        .count-info {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 15px;
+            font-size: 0.95em;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .range-inputs {
+                grid-template-columns: 1fr;
+            }
+            
+            .slot-digit {
+                width: 100px;
+                height: 150px;
+                font-size: 5em;
+            }
+
+            .slot-display {
+                gap: 10px;
+            }
+
+            .btn-random {
+                font-size: 1.2em;
+                padding: 15px 40px;
+            }
+
+            .results-list {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Snowflakes -->
+    <script>
+        // Create snowflakes
+        for (let i = 0; i < 30; i++) {
+            let snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            snowflake.style.fontSize = (Math.random() * 0.5 + 0.5) + 'em';
+            snowflake.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(snowflake);
+        }
+    </script>
+
+    <!-- Audio Elements -->
+    <audio id="spinSound" preload="auto">
+        <source src="spin-sound.mp3" type="audio/mpeg">
+        <source src="spin-sound.wav" type="audio/wav">
+    </audio>
+    <audio id="winSound" preload="auto">
+        <source src="win-sound.mp3" type="audio/mpeg">
+        <source src="win-sound.wav" type="audio/wav">
+    </audio>
+
+    <div class="container">
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">🖵 Full Screen</button>
+        
+        <div class="header">
+            <h1>🎉 Happy New Year 2026 🎊</h1>
+            <div class="subtitle">โรงพยาบาลจุฬารัตน์ | Chularat Hospital</div>
+        </div>
+
+        <button class="settings-toggle-btn" ondblclick="toggleSettings()">
+            <span class="icon">▼</span> ตั้งค่าช่วงหมายเลข
+        </button>
+
+        <div class="input-section" id="settingsSection">
+            <div class="range-inputs">
+                <div class="input-group">
+                    <label for="minNumber">🔢 ตัวเลขเริ่มต้น (Min):</label>
+                    <input type="number" id="minNumber" value="1" min="0" max="999999">
+                </div>
+                <div class="input-group">
+                    <label for="maxNumber">🔢 ตัวเลขสิ้นสุด (Max):</label>
+                    <input type="number" id="maxNumber" value="999" min="1" max="999999">
+                </div>
+            </div>
+            
+            <div class="options">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="uniqueValue" checked>
+                    <label for="uniqueValue">✓ แสดงค่าไม่ซ้ำกัน (Unique Value)</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="showAllResults">
+                    <label for="showAllResults">📋 แสดงผลลัพธ์ทั้งหมด (List all Results)</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="slot-machine">
+            <div class="slot-display" id="slotDisplay">
+                <div class="slot-digit">
+                    <div class="slot-digit-inner">0</div>
+                </div>
+                <div class="slot-digit">
+                    <div class="slot-digit-inner">0</div>
+                </div>
+                <div class="slot-digit">
+                    <div class="slot-digit-inner">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-random" onclick="randomNumber()">
+                🎁 จับรางวัล
+            </button>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div class="results-header">
+                <h3>🎉 รายชื่อผู้โชคดี</h3>
+                <button class="btn-clear" onclick="clearResults()">ล้างรายชื่อ</button>
+            </div>
+            <div class="results-list" id="resultsList"></div>
+            <div class="count-info" id="countInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        let allNumbers = [];
+        let remainingNumbers = [];
+        let results = [];
+        let isAnimating = false;
+        let currentNumber = 0;
+        let currentMin = null;
+        let currentMax = null;
+
+        function getNumberRange() {
+            const min = parseInt(document.getElementById('minNumber').value);
+            const max = parseInt(document.getElementById('maxNumber').value);
+            
+            if (isNaN(min) || isNaN(max)) {
+                alert('⚠️ กรุณากรอกตัวเลขที่ถูกต้อง');
+                return null;
+            }
+            
+            if (min >= max) {
+                alert('⚠️ ตัวเลขเริ่มต้นต้องน้อยกว่าตัวเลขสิ้นสุด');
+                return null;
+            }
+
+            if (max - min > 1000000) {
+                alert('⚠️ ช่วงตัวเลขต้องไม่เกิน 1,000,000');
+                return null;
+            }
+            
+            return { min, max };
+        }
+
+        function initializeNumbers(force = false) {
+            const range = getNumberRange();
+            if (!range) return false;
+            
+            // Check if range has changed
+            if (force || currentMin !== range.min || currentMax !== range.max) {
+                allNumbers = [];
+                for (let i = range.min; i <= range.max; i++) {
+                    allNumbers.push(i);
+                }
+                remainingNumbers = [...allNumbers];
+                currentMin = range.min;
+                currentMax = range.max;
+                
+                // Clear results if range changed
+                if (!force && results.length > 0) {
+                    const confirm = window.confirm('🔄 ช่วงตัวเลขเปลี่ยนแปลง ต้องการล้างผลลัพธ์เก่าหรือไม่?');
+                    if (confirm) {
+                        results = [];
+                        updateResults();
+                    }
+                }
+            }
+            return true;
+        }
+
+        function padNumber(num, length) {
+            return String(num).padStart(length, '0');
+        }
+
+        function updateSlotDisplay(number, slotIndex = null) {
+            const slots = document.querySelectorAll('.slot-digit-inner');
+            const range = getNumberRange();
+            if (!range) return;
+            
+            const maxDigits = String(range.max).length;
+            const numStr = padNumber(number, maxDigits);
+            
+            if (slotIndex !== null && slotIndex < slots.length) {
+                // Update specific slot
+                slots[slotIndex].textContent = numStr[slotIndex];
+            } else {
+                // Update all slots
+                slots.forEach((slot, index) => {
+                    if (index < numStr.length) {
+                        slot.textContent = numStr[index];
+                    }
+                });
+            }
+        }
+
+        function adjustSlotDigits(digitCount) {
+            const slotDisplay = document.getElementById('slotDisplay');
+            slotDisplay.innerHTML = '';
+            
+            for (let i = 0; i < digitCount; i++) {
+                const digitDiv = document.createElement('div');
+                digitDiv.className = 'slot-digit';
+                digitDiv.innerHTML = '<div class="slot-digit-inner">0</div>';
+                slotDisplay.appendChild(digitDiv);
+            }
+        }
+
+        function randomNumber() {
+            if (isAnimating) return;
+
+            // Check and initialize numbers (will detect range changes)
+            if (!initializeNumbers()) return;
+
+            const uniqueValue = document.getElementById('uniqueValue').checked;
+            const range = getNumberRange();
+            if (!range) return;
+
+            // Check if all numbers used
+            if (uniqueValue && remainingNumbers.length === 0) {
+                const restart = confirm('🎊 จับรางวัลครบทุกหมายเลขแล้ว!\n\nต้องการเริ่มจับรางวัลใหม่หรือไม่?');
+                if (restart) {
+                    remainingNumbers = [...allNumbers];
+                    results = [];
+                    updateResults();
+                } else {
+                    return;
+                }
+            }
+
+            // Play sound effect
+            const sound = document.getElementById('spinSound');
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(err => console.log('Audio play failed:', err));
+            }
+
+            // Calculate digit count
+            const maxDigits = String(range.max).length;
+            adjustSlotDigits(maxDigits);
+
+            // Select final number first
+            let selectedNumber;
+            if (uniqueValue && remainingNumbers.length > 0) {
+                const randomIndex = Math.floor(Math.random() * remainingNumbers.length);
+                selectedNumber = remainingNumbers[randomIndex];
+                remainingNumbers.splice(randomIndex, 1);
+            } else {
+                selectedNumber = Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+            }
+
+            const finalDigits = padNumber(selectedNumber, maxDigits).split('');
+
+            // Start animation
+            isAnimating = true;
+            const slotDigits = document.querySelectorAll('.slot-digit');
+            
+            // Start all slots spinning
+            slotDigits.forEach(slot => slot.classList.add('spinning'));
+
+            // Stop each slot one by one with slowdown effect
+            let stoppedSlots = 0;
+            
+            slotDigits.forEach((slot, index) => {
+                const stopDelay = 3000 + (index * 1000); // Each slot stops 1000ms after the previous
+                const slowDelay = stopDelay - 500; // Start slowing 500ms before stop
+                
+                // Start spinning animation for this slot
+                const spinInterval = setInterval(() => {
+                    const randomNum = Math.floor(Math.random() * 10);
+                    updateSlotDisplay(randomNum, index);
+                }, 50);
+                
+                // Slow down before stopping
+                setTimeout(() => {
+                    clearInterval(spinInterval);
+                    slot.classList.remove('spinning');
+                    slot.classList.add('slowing');
+                    
+                    // Continue with slower animation
+                    const slowInterval = setInterval(() => {
+                        const randomNum = Math.floor(Math.random() * 10);
+                        updateSlotDisplay(randomNum, index);
+                    }, 100);
+                    
+                    // Final stop
+                    setTimeout(() => {
+                        clearInterval(slowInterval);
+                        slot.classList.remove('slowing');
+                        
+                        // Set final digit
+                        slot.querySelector('.slot-digit-inner').textContent = finalDigits[index];
+                        
+                        stoppedSlots++;
+                        
+                        // When all slots stopped
+                        if (stoppedSlots === slotDigits.length) {
+                            currentNumber = selectedNumber;
+                            results.push(selectedNumber);
+                            updateResults();
+                            isAnimating = false;
+                            
+                            // Play win sound
+                            const winSound = document.getElementById('winSound');
+                            if (winSound) {
+                                winSound.currentTime = 0;
+                                winSound.play().catch(err => console.log('Win sound play failed:', err));
+                            }
+                        }
+                    }, 400);
+                }, slowDelay);
+            });
+        }
+
+        function updateResults() {
+            const showAllResults = document.getElementById('showAllResults').checked;
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsList = document.getElementById('resultsList');
+            const countInfo = document.getElementById('countInfo');
+
+            if (results.length > 0 && showAllResults) {
+                resultsSection.style.display = 'block';
+                
+                resultsList.innerHTML = results.map((num, index) => `
+                    <div class="result-item">
+                        <div class="item-number">${index + 1}.</div>
+                        <div class="item-value">${num}</div>
+                    </div>
+                `).join('');
+
+                const uniqueValue = document.getElementById('uniqueValue').checked;
+                if (uniqueValue && allNumbers.length > 0) {
+                    countInfo.textContent = `ผู้โชคดี ${results.length} คน จาก ${allNumbers.length} หมายเลข | เหลืออีก ${remainingNumbers.length} หมายเลข`;
+                } else {
+                    countInfo.textContent = `จับรางวัลไปแล้วทั้งหมด ${results.length} ครั้ง`;
+                }
+            } else if (results.length === 0 || !showAllResults) {
+                resultsSection.style.display = 'none';
+            }
+        }
+
+        function clearResults() {
+            const confirmClear = confirm('🗑️ ต้องการล้างรายชื่อผู้โชคดีทั้งหมดหรือไม่?');
+            if (!confirmClear) return;
+
+            results = [];
+            
+            // Reinitialize with current range
+            initializeNumbers(true);
+            updateResults();
+            
+            const range = getNumberRange();
+            if (range) {
+                const maxDigits = String(range.max).length;
+                adjustSlotDigits(maxDigits);
+                updateSlotDisplay(0);
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    alert('ไม่สามารถเปิดโหมดเต็มหน้าจอได้');
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Update results display when checkbox changes
+        document.getElementById('showAllResults').addEventListener('change', updateResults);
+        document.getElementById('uniqueValue').addEventListener('change', function() {
+            if (this.checked && allNumbers.length > 0) {
+                remainingNumbers = [...allNumbers].filter(num => !results.includes(num));
+            }
+        });
+
+        // Initialize display
+        updateSlotDisplay(0);
+
+        // Settings toggle function
+        function toggleSettings() {
+            const settingsSection = document.getElementById('settingsSection');
+            const toggleBtn = document.querySelector('.settings-toggle-btn');
+            
+            settingsSection.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('collapsed');
+            
+            // Update button text
+            const icon = toggleBtn.querySelector('.icon');
+            if (settingsSection.classList.contains('collapsed')) {
+                toggleBtn.innerHTML = 'ขอแสดงความยินดีกับโต๊ะหมายเลข';
+            } else {
+                toggleBtn.innerHTML = '<span class="icon">▼</span> ซ่อนการตั้งค่าช่วงหมายเลข';
+            }
+        }
+    </script>
+</body>
+</html>
