@@ -641,10 +641,10 @@
                 const stopDelay = 3000 + (index * 1000); // Each slot stops 1000ms after the previous
                 const slowDelay = stopDelay - 500; // Start slowing 500ms before stop
                 
-                // Start spinning animation for this slot
+                // Start spinning animation for this slot - แต่ละหลักสุ่มอิสระ 0-9
                 const spinInterval = setInterval(() => {
-                    const randomNum = Math.floor(Math.random() * 10);
-                    updateSlotDisplay(randomNum, index);
+                    const randomDigit = Math.floor(Math.random() * 10);
+                    slot.querySelector('.slot-digit-inner').textContent = randomDigit;
                 }, 50);
                 
                 // Slow down before stopping
@@ -655,8 +655,8 @@
                     
                     // Continue with slower animation
                     const slowInterval = setInterval(() => {
-                        const randomNum = Math.floor(Math.random() * 10);
-                        updateSlotDisplay(randomNum, index);
+                        const randomDigit = Math.floor(Math.random() * 10);
+                        slot.querySelector('.slot-digit-inner').textContent = randomDigit;
                     }, 100);
                     
                     // Final stop
