@@ -535,8 +535,20 @@
             try {
                 const response = await fetch(GOOGLE_SCRIPT_URL + '?action=load');
                 const data = await response.json();
-                console.log('Loaded numbers from Sheets:', data.numbers);
-                return data.numbers || [];
+                
+                // แปลงเป็น array ของตัวเลข และลบค่าซ้ำ
+                let numbers = [];
+                if (data.numbers && Array.isArray(data.numbers)) {
+                    numbers = data.numbers
+                        .map(n => parseInt(n))  // แปลงเป็น number
+                        .filter(n => !isNaN(n)); // กรองค่าที่ไม่ใช่ตัวเลข
+                    
+                    // ลบค่าซ้ำ
+                    numbers = [...new Set(numbers)];
+                }
+                
+                console.log('Loaded numbers from Sheets:', numbers, '(unique values)');
+                return numbers;
             } catch (error) {
                 console.error('Error loading from Google Sheets:', error);
                 return [];
