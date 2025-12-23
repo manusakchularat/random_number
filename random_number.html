@@ -102,12 +102,12 @@
         }
 
         .input-section {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             background: white;
-            padding: 20px;
+            padding: 10px 20px 20px 20px;
             border-radius: 10px;
             transition: all 0.3s ease;
-            max-height: 500px;
+            max-height: 1000px;
             overflow: hidden;
         }
 
@@ -122,10 +122,19 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
+            padding: 0px 15px;
+            background: transparent;
+            border-radius: 8px;
+            border: none;
         }
 
         .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .range-inputs .input-group {
             display: flex;
             flex-direction: column;
         }
@@ -135,20 +144,30 @@
             color: #333;
             font-weight: bold;
             margin-bottom: 8px;
-            font-size: 1em;
+            font-size: 1.1em;
+        }
+        
+        .range-inputs label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1em;
         }
 
         input[type="number"] {
             padding: 12px;
-            border: 2px solid #ddd;
+            border: 2px solid #2196F3;
             border-radius: 8px;
-            font-size: 1.1em;
+            font-size: 1.2em;
             transition: border-color 0.3s;
+            background: white;
         }
 
         input[type="number"]:focus {
             outline: none;
-            border-color: #2196F3;
+            border-color: #1976D2;
+            box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
         }
 
         .options {
@@ -175,6 +194,127 @@
             cursor: pointer;
             font-weight: normal;
             color: #555;
+        }
+
+        .speed-control {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .custom-text-control {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border-radius: 8px;
+        }
+
+        .header-text-control {
+            margin-top: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+
+        .header-text-control .input-group {
+            margin-bottom: 15px;
+            display: block !important;
+            width: 100%;
+        }
+
+        .header-text-control .input-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .header-text-control label {
+            display: block !important;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1em;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .header-text-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        .header-text-input:focus {
+            outline: none;
+            border-color: #1976D2;
+        }
+
+        .custom-text-control label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1em;
+        }
+
+        .custom-text-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .custom-text-input:focus {
+            outline: none;
+            border-color: #ff9800;
+        }
+
+        .speed-control label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1em;
+        }
+
+        .speed-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2196F3;
+            cursor: pointer;
+        }
+
+        .speed-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2196F3;
+            cursor: pointer;
+            border: none;
+        }
+
+        .speed-value {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+            color: #2196F3;
+            font-size: 1.1em;
         }
 
         /* Slot Machine Display */
@@ -456,6 +596,42 @@
                     <label for="showAllResults">📋 แสดงผลลัพธ์ทั้งหมด (List all Results)</label>
                 </div>
             </div>
+            
+            <div class="speed-control">
+                <label for="speedSlider">
+                    ⚡ ความเร็วการหมุน (Speed): 
+                    <span class="speed-value" id="speedValue">ปกติ (1x)</span>
+                </label>
+                <input type="range" id="speedSlider" class="speed-slider" 
+                       min="0.5" max="3" step="0.5" value="1">
+            </div>
+            
+            <div class="header-text-control">
+                <div class="input-group">
+                    <label for="headerText">
+                        🎊 ข้อความหัวเรื่อง (Header):
+                    </label>
+                    <input type="text" id="headerText" class="header-text-input" 
+                           placeholder="🎉 Happy New Year 2026 🎊" 
+                           value="🎉 Happy New Year 2026 🎊">
+                </div>
+                <div class="input-group">
+                    <label for="subtitleText">
+                        🏥 ข้อความรอง (Subtitle):
+                    </label>
+                    <input type="text" id="subtitleText" class="header-text-input" 
+                           placeholder="โรงพยาบาลจุฬารัตน์ | Chularat Hospital" 
+                           value="โรงพยาบาลจุฬารัตน์ | Chularat Hospital">
+                </div>
+                <div class="input-group">
+                    <label for="customText">
+                    ✏️ ข้อความปุ่มปิดการตั้งค่า:
+                </label>
+                <input type="text" id="customText" class="custom-text-input" 
+                       placeholder="ขอแสดงความยินดีกับโต๊ะหมายเลข" 
+                       value="ขอแสดงความยินดีกับโต๊ะหมายเลข">
+                </div>
+            </div>        
         </div>
 
         <div class="slot-machine">
@@ -496,6 +672,7 @@
         let currentNumber = 0;
         let currentMin = null;
         let currentMax = null;
+        let animationSpeed = 1; // ค่าเริ่มต้น 1x
 
         function getNumberRange() {
             const min = parseInt(document.getElementById('minNumber').value);
@@ -638,14 +815,15 @@
             let stoppedSlots = 0;
             
             slotDigits.forEach((slot, index) => {
-                const stopDelay = 3000 + (index * 1000); // Each slot stops 1000ms after the previous
-                const slowDelay = stopDelay - 500; // Start slowing 500ms before stop
+                const baseStopDelay = 3000 / animationSpeed; // ปรับตามความเร็ว
+                const stopDelay = baseStopDelay + (index * (1000 / animationSpeed));
+                const slowDelay = stopDelay - (500 / animationSpeed);
                 
                 // Start spinning animation for this slot - แต่ละหลักสุ่มอิสระ 0-9
                 const spinInterval = setInterval(() => {
                     const randomDigit = Math.floor(Math.random() * 10);
                     slot.querySelector('.slot-digit-inner').textContent = randomDigit;
-                }, 50);
+                }, 50 / animationSpeed);
                 
                 // Slow down before stopping
                 setTimeout(() => {
@@ -657,7 +835,7 @@
                     const slowInterval = setInterval(() => {
                         const randomDigit = Math.floor(Math.random() * 10);
                         slot.querySelector('.slot-digit-inner').textContent = randomDigit;
-                    }, 100);
+                    }, 100 / animationSpeed);
                     
                     // Final stop
                     setTimeout(() => {
@@ -683,7 +861,7 @@
                                 winSound.play().catch(err => console.log('Win sound play failed:', err));
                             }
                         }
-                    }, 400);
+                    }, 400 / animationSpeed);
                 }, slowDelay);
             });
         }
@@ -750,6 +928,30 @@
                 remainingNumbers = [...allNumbers].filter(num => !results.includes(num));
             }
         });
+        
+        // Speed slider control
+        document.getElementById('speedSlider').addEventListener('input', function() {
+            animationSpeed = parseFloat(this.value);
+            const speedText = {
+                '0.5': 'ช้า (0.5x)',
+                '1': 'ปกติ (1x)',
+                '1.5': 'เร็ว (1.5x)',
+                '2': 'เร็วมาก (2x)',
+                '2.5': 'แรงมาก (2.5x)',
+                '3': 'สุดแรง (3x)'
+            };
+            document.getElementById('speedValue').textContent = speedText[this.value] || `${this.value}x`;
+        });
+        
+        // Header text control
+        document.getElementById('headerText').addEventListener('input', function() {
+            document.querySelector('.header h1').textContent = this.value || '🎉 Happy New Year 2026 🎊';
+        });
+        
+        // Subtitle text control
+        document.getElementById('subtitleText').addEventListener('input', function() {
+            document.querySelector('.header .subtitle').textContent = this.value || 'โรงพยาบาลจุฬารัตน์ | Chularat Hospital';
+        });
 
         // Initialize display
         updateSlotDisplay(0);
@@ -765,7 +967,8 @@
             // Update button text
             const icon = toggleBtn.querySelector('.icon');
             if (settingsSection.classList.contains('collapsed')) {
-                toggleBtn.innerHTML = 'ขอแสดงความยินดีกับโต๊ะหมายเลข';
+                const customText = document.getElementById('customText').value || 'ขอแสดงความยินดีกับโต๊ะหมายเลข';
+                toggleBtn.innerHTML = customText;
             } else {
                 toggleBtn.innerHTML = '<span class="icon">▼</span> ซ่อนการตั้งค่าช่วงหมายเลข';
             }
