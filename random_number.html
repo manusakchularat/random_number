@@ -806,6 +806,8 @@
 
             // Start animation
             isAnimating = true;
+            const randomButton = document.querySelector('.btn-random');
+            if (randomButton) randomButton.disabled = true;
             const slotDigits = document.querySelectorAll('.slot-digit');
             
             // Start all slots spinning
@@ -853,6 +855,10 @@
                             results.push(selectedNumber);
                             updateResults();
                             isAnimating = false;
+                            
+                            // Enable button again
+                            const randomButton = document.querySelector('.btn-random');
+                            if (randomButton) randomButton.disabled = false;
                             
                             // Stop spin sound first
                             const spinSound = document.getElementById('spinSound');
