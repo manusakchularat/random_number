@@ -458,6 +458,44 @@
             border-bottom: 2px solid #e0e0e0;
         }
 
+        .add-numbers-section {
+            background: #fff9e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #ffc107;
+        }
+
+        .add-numbers-section h4 {
+            color: #333;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        .add-numbers-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        .btn-add-numbers {
+            background: #ffc107;
+            color: #333;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .btn-add-numbers:hover {
+            background: #ff9800;
+        }
+
         .results-header h3 {
             color: #2c3e50;
             font-size: 1.3em;
@@ -604,6 +642,13 @@
                 </label>
                 <input type="range" id="speedSlider" class="speed-slider" 
                        min="0.5" max="3" step="0.5" value="1">
+            </div>
+            
+            <div class="add-numbers-section">
+                <h4>➕ เพิ่มหมายเลขที่สุ่มไปแล้ว (ป้องกันการสุ่มซ้ำหลัง Refresh)</h4>
+                <input type="text" id="addNumbersInput" class="add-numbers-input" 
+                       placeholder="ใส่หมายเลข เช่น 5, 10, 25 หรือ 5-10 (คั่นด้วยเครื่องหมาย , หรือ -)">
+                <button class="btn-add-numbers" onclick="addPreviousNumbers()">เพิ่มหมายเลข</button>
             </div>
             
             <div class="header-text-control">
@@ -885,6 +930,7 @@
             const resultsList = document.getElementById('resultsList');
             const countInfo = document.getElementById('countInfo');
 
+            // Show section only if checkbox is checked AND there are results
             if (results.length > 0 && showAllResults) {
                 resultsSection.style.display = 'block';
                 
@@ -901,7 +947,7 @@
                 } else {
                     countInfo.textContent = `จับรางวัลไปแล้วทั้งหมด ${results.length} ครั้ง`;
                 }
-            } else if (results.length === 0 || !showAllResults) {
+            } else {
                 resultsSection.style.display = 'none';
             }
         }
@@ -922,6 +968,78 @@
                 adjustSlotDigits(maxDigits);
                 updateSlotDisplay(0);
             }
+        }
+
+        function addPreviousNumbers() {
+            const input = document.getElementById('addNumbersInput').value.trim();
+            if (!input) {
+                alert('⚠️ กรุณาใส่หมายเลข');
+                return;
+            }
+
+            const range = getNumberRange();
+            if (!range) return;
+
+            // Initialize if not yet
+            if (allNumbers.length === 0) {
+                initializeNumbers(true);
+            }
+
+            const numbersToAdd = [];
+            const parts = input.split(',');
+
+            for (const part of parts) {
+                const trimmed = part.trim();
+                
+                // Check if it's a range (e.g., "5-10")
+                if (trimmed.includes('-')) {
+                    const [start, end] = trimmed.split('-').map(s => parseInt(s.trim()));
+                    if (!isNaN(start) && !isNaN(end) && start <= end) {
+                        for (let i = start; i <= end; i++) {
+                            if (i >= range.min && i <= range.max) {
+                                numbersToAdd.push(i);
+                            }
+                        }
+                    }
+                } else {
+                    // Single number
+                    const num = parseInt(trimmed);
+                    if (!isNaN(num) && num >= range.min && num <= range.max) {
+                        numbersToAdd.push(num);
+                    }
+                }
+            }
+
+            if (numbersToAdd.length === 0) {
+                alert('⚠️ ไม่พบหมายเลขที่ถูกต้องในช่วง ' + range.min + ' - ' + range.max);
+                return;
+            }
+
+            // Remove duplicates
+            const uniqueNumbers = [...new Set(numbersToAdd)];
+            
+            // Add to results (only if not already in results)
+            let addedCount = 0;
+            uniqueNumbers.forEach(num => {
+                if (!results.includes(num)) {
+                    results.push(num);
+                    addedCount++;
+                    
+                    // Remove from remainingNumbers
+                    const index = remainingNumbers.indexOf(num);
+                    if (index > -1) {
+                        remainingNumbers.splice(index, 1);
+                    }
+                }
+            });
+
+            // Clear input
+            document.getElementById('addNumbersInput').value = '';
+            
+            // Update display
+            updateResults();
+            
+            alert(`✅ เพิ่มหมายเลขสำเร็จ ${addedCount} ตัว`);
         }
 
         function toggleFullscreen() {
